@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+	<title></title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="" href="https://cdn.jsdelivr.net/sweetalert2/6.4.2/sweetalert2.min.css">
+	<link rel="stylesheet" type="" href="app/content/css/dropkick.css">
+</head>
+
+<body>
+	<h1>HPH</h1>
+	<section ng-controller="ClientController as vm">
+		<h4 client-directive my-text="Hello {{vm.name}}" my-two-way-bind="vm.name" my-one-way-bind="vm.viewValue()" reverse="vm.reverse()">
+			<a href="" ng-click="vm.viewValue();">Ver Valor</a>
+
+		</h4>
+		<select id="select" class="select" ng-options="terminal.Name for terminal in vm.terminals" ng-model="vm.selectedTerminal">
+            <option value="">Selecciona...</option>
+        </select>
+		<br>
+		<pre>
+			{{vm.selectedTerminal}}
+		</pre>
+		<input type="text" ng-model="vm.rfc" />
+		<button type="button" ng-click="vm.getPatentesByTerminalRfc(vm.rfc,vm.selectedTerminal.code)">Buscar</button>
+
+		<section>
+			<ul>
+				<li ng-repeat="item in vm.terminal.Brokers">
+					<p>Code: {{item.Code}}, Name: {{item.Name}}, Rfc: {{item.Rfc}}, Terminal: {{vm.terminal.Name}}</p>
+					<a href="" ng-click="vm.associate(item, vm.terminal.Name,$index)">Asociar</a>
+				</li>
+			</ul>
+		</section>
+		<hr/>
+		<section>
+			<ul>
+				<li ng-repeat="item in vm.brokersAssociated">
+					<p>Code: {{item.broker.Code}}, Name: {{item.broker.Name}}, Rfc: {{item.broker.Rfc}}, Terminal: {{item.terminalName}}</p>
+					<a href="" ng-click="vm.desassociate($index)">Desasociar</a>
+				</li>
+			</ul>
+		</section>
+		<section>
+			<select
+			my-drop-kick 
+			name="countries" id="countries" ng-model="vm.selectedCountry" ng-options="country.name for country in vm.countries">
+				<option value="">Select country</option>
+			</select>
+		</section>
+	</section>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="app/content/js/dropkick.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/sweetalert2/6.4.2/sweetalert2.min.js"></script>
+	<script src="app/app.module.js"></script>
+	<script src="app/client/client.service.js"></script>
+	<script src="app/client/client.controller.js "></script>
+	<script>
+		$(function(){
+			$("#select").dropkick({
+  				mobile: true
+			});			
+		});
+	</script>
+</body>
+
+</html>
